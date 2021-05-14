@@ -653,66 +653,44 @@
 <div style="clear:both"></div>
 
 <h1 id="serde"><a name="serde" class="plugin-anchor" href="#serde"><i class="fa fa-link" aria-hidden="true"></i></a>Serde</h1>
-<p>Serde is a framework for <strong><em>ser</em></strong>ializing and <strong><em>de</em></strong>serializing Rust data
-structures efficiently and generically.</p>
-<p>The Serde ecosystem consists of data structures that know how to serialize and
-deserialize themselves along with data formats that know how to serialize and
-deserialize other things. Serde provides the layer by which these two groups
-interact with each other, allowing any supported data structure to be serialized
-and deserialized using any supported data format.</p>
-<h3 id="design"><a name="design" class="plugin-anchor" href="#design"><i class="fa fa-link" aria-hidden="true"></i></a>Design</h3>
-<p>Where many other languages rely on runtime reflection for serializing data,
-Serde is instead built on Rust&apos;s powerful trait system. A data structure that
-knows how to serialize and deserialize itself is one that implements Serde&apos;s
-<code>Serialize</code> and <code>Deserialize</code> traits (or uses Serde&apos;s derive attribute to
-automatically generate implementations at compile time). This avoids any
-overhead of reflection or runtime type information. In fact in many situations
-the interaction between data structure and data format can be completely
-optimized away by the Rust compiler, leaving Serde serialization to perform
-the same speed as a handwritten serializer for the specific selection of data
-structure and data format.</p>
-<h3 id="data-formats"><a name="data-formats" class="plugin-anchor" href="#data-formats"><i class="fa fa-link" aria-hidden="true"></i></a>Data formats</h3>
-<p>The following is a partial list of data formats that have been implemented for
-Serde by the community.</p>
+<p>Serde&#x306F;&#x3001;Rust&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;&#x3092;&#x52B9;&#x7387;&#x7684;&#x304B;&#x3064;&#x4E00;&#x822C;&#x7684;&#x306B;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#xFF08;<strong><em>ser</em></strong>ializing&#xFF09;&#x304A;&#x3088;&#x3073;&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#xFF08;<strong><em>de</em></strong>serializing&#xFF09;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;&#x30D5;&#x30EC;&#x30FC;&#x30E0;&#x30EF;&#x30FC;&#x30AF;&#x3067;&#x3059;&#x3002;</p>
+<p>Serde&#x306E;&#x30A8;&#x30B3;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x306F;&#x3001;&#x81EA;&#x5206;&#x81EA;&#x8EAB;&#x3092;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;/&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3092;&#x77E5;&#x3063;&#x3066;&#x3044;&#x308B;&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;&#x3068;&#x3001;&#x4ED6;&#x306E;&#x3082;&#x306E;&#x3092;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;/&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3092;&#x77E5;&#x3063;&#x3066;&#x3044;&#x308B;&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x69CB;&#x6210;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;
+Serde&#x306F;&#x3001;&#x3053;&#x306E;2&#x3064;&#x306E;&#x30B0;&#x30EB;&#x30FC;&#x30D7;&#x304C;&#x76F8;&#x4E92;&#x306B;&#x4F5C;&#x7528;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;&#x30EC;&#x30A4;&#x30E4;&#x30FC;&#x3092;&#x63D0;&#x4F9B;&#x3057;&#x3001;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;&#x3092;&#x3001;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x304A;&#x3088;&#x3073;&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<h3 id="&#x30C7;&#x30B6;&#x30A4;&#x30F3;"><a name="&#x30C7;&#x30B6;&#x30A4;&#x30F3;" class="plugin-anchor" href="#&#x30C7;&#x30B6;&#x30A4;&#x30F3;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x30C7;&#x30B6;&#x30A4;&#x30F3;</h3>
+<p>&#x4ED6;&#x306E;&#x591A;&#x304F;&#x306E;&#x8A00;&#x8A9E;&#x3067;&#x306F;&#x3001;&#x30C7;&#x30FC;&#x30BF;&#x306E;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3092;&#x30E9;&#x30F3;&#x30BF;&#x30A4;&#x30E0;&#x30EA;&#x30D5;&#x30EC;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306B;&#x983C;&#x3063;&#x3066;&#x3044;&#x307E;&#x3059;&#x304C;&#x3001;Serde&#x306F;&#x4EE3;&#x308F;&#x308A;&#x306B;Rust&#x306E;&#x5F37;&#x529B;&#x306A;&#x30C8;&#x30EC;&#x30A4;&#x30C8;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x306B;&#x57FA;&#x3065;&#x3044;&#x3066;&#x69CB;&#x7BC9;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;
+&#x81EA;&#x5206;&#x81EA;&#x8EAB;&#x3092;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;/&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3092;&#x77E5;&#x3063;&#x3066;&#x3044;&#x308B;&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;&#x306F;&#x3001;Serde&#x306E;<code>Serialize</code>&#x30C8;&#x30EC;&#x30A4;&#x30C8;&#x304A;&#x3088;&#x3073;<code>Deserialize</code>&#x30C8;&#x30EC;&#x30A4;&#x30C8;&#x3092;&#x5B9F;&#x88C5;&#x3057;&#x3066;&#x3044;&#x308B;&#xFF08;&#x307E;&#x305F;&#x306F; Serde&#x306E;<code>[#derive]</code>&#x30A2;&#x30C8;&#x30EA;&#x30D3;&#x30E5;&#x30FC;&#x30C8;&#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x30B3;&#x30F3;&#x30D1;&#x30A4;&#x30EB;&#x6642;&#x306B;&#x5B9F;&#x88C5;&#x3092;&#x81EA;&#x52D5;&#x751F;&#x6210;&#x3057;&#x3066;&#x3044;&#x308B;&#xFF09;&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;&#x3067;&#x3059;&#x3002;
+&#x3053;&#x308C;&#x306B;&#x3088;&#x308A;&#x3001;&#x30EA;&#x30D5;&#x30EC;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3084;&#x30E9;&#x30F3;&#x30BF;&#x30A4;&#x30E0;&#x578B;&#x60C5;&#x5831;&#x306E;&#x30AA;&#x30FC;&#x30D0;&#x30FC;&#x30D8;&#x30C3;&#x30C9;&#x3092;&#x56DE;&#x907F;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;
+&#x5B9F;&#x969B;&#x3001;&#x591A;&#x304F;&#x306E;&#x72B6;&#x6CC1;&#x306B;&#x304A;&#x3044;&#x3066;&#x3001;&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;&#x3068;&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x306E;&#x9593;&#x306E;&#x76F8;&#x4E92;&#x4F5C;&#x7528;&#x306F;&#x3001;Rust&#x30B3;&#x30F3;&#x30D1;&#x30A4;&#x30E9;&#x306B;&#x3088;&#x3063;&#x3066;&#x5B8C;&#x5168;&#x306B;&#x6700;&#x9069;&#x5316;&#x3055;&#x308C;&#x3001;Serde&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x306F;&#x3001;&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;&#x3068;&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x306E;&#x7279;&#x5B9A;&#x306E;&#x9078;&#x629E;&#x306B;&#x5BFE;&#x3057;&#x3066;&#x3001;&#x624B;&#x66F8;&#x304D;&#x306E;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30B6;&#x3068;&#x540C;&#x3058;&#x901F;&#x5EA6;&#x3067;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+<h3 id="&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;"><a name="&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;" class="plugin-anchor" href="#&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;</h3>
+<p>&#x4EE5;&#x4E0B;&#x306F;&#x3001;&#x30B3;&#x30DF;&#x30E5;&#x30CB;&#x30C6;&#x30A3;&#x306B;&#x3088;&#x3063;&#x3066;Serde&#x306B;&#x5B9F;&#x88C5;&#x3055;&#x308C;&#x305F;&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x306E;&#x4E00;&#x90E8;&#x3067;&#x3059;&#x3002;&#x30B3;&#x30DF;&#x30E5;&#x30CB;&#x30C6;&#x30A3;&#x306B;&#x3088;&#x3063;&#x3066;Serde&#x306B;&#x5B9F;&#x88C5;&#x3055;&#x308C;&#x305F;&#x30C7;&#x30FC;&#x30BF;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x306E;&#x4E00;&#x90E8;&#x3092;&#x3054;&#x7D39;&#x4ECB;&#x3057;&#x307E;&#x3059;&#x3002;</p>
 <ul>
-<li><a href="https://github.com/serde-rs/json" target="_blank">JSON</a>, the ubiquitous JavaScript Object Notation used by many HTTP APIs.</li>
-<li><a href="https://github.com/servo/bincode" target="_blank">Bincode</a>, a compact binary format used for IPC within the Servo rendering
-engine.</li>
-<li><a href="https://github.com/pyfisch/cbor" target="_blank">CBOR</a>, a Concise Binary Object Representation designed for small message size
-without the need for version negotiation.</li>
-<li><a href="https://github.com/dtolnay/serde-yaml" target="_blank">YAML</a>, a self-proclaimed human-friendly configuration language that ain&apos;t
-markup language.</li>
-<li><a href="https://github.com/3Hren/msgpack-rust" target="_blank">MessagePack</a>, an efficient binary format that resembles a compact JSON.</li>
-<li><a href="https://github.com/alexcrichton/toml-rs" target="_blank">TOML</a>, a minimal configuration format used by <a href="http://doc.crates.io/manifest.html" target="_blank">Cargo</a>.</li>
-<li><a href="https://github.com/birkenfeld/serde-pickle" target="_blank">Pickle</a>, a format common in the Python world.</li>
-<li><a href="https://github.com/ron-rs/ron" target="_blank">RON</a>, a Rusty Object Notation.</li>
-<li><a href="https://github.com/zonyitoo/bson-rs" target="_blank">BSON</a>, the data storage and network transfer format used by MongoDB.</li>
-<li><a href="https://github.com/flavray/avro-rs" target="_blank">Avro</a>, a binary format used within Apache Hadoop, with support for schema
-definition.</li>
-<li><a href="https://github.com/callum-oakley/json5-rs" target="_blank">JSON5</a>, a superset of JSON including some productions from ES5.</li>
-<li><a href="https://github.com/jamesmunns/postcard" target="_blank">Postcard</a>, a no_std and embedded-systems friendly compact binary format.</li>
-<li><a href="https://docs.rs/serde_qs" target="_blank">URL</a> query strings, in the x-www-form-urlencoded format.</li>
-<li><a href="https://github.com/softprops/envy" target="_blank">Envy</a>, a way to deserialize environment variables into Rust structs.
-<em>(deserialization only)</em></li>
-<li><a href="https://github.com/softprops/envy-store" target="_blank">Envy Store</a>, a way to deserialize <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html" target="_blank">AWS Parameter Store</a> parameters into Rust
-structs. <em>(deserialization only)</em></li>
-<li><a href="https://github.com/rotty/lexpr-rs" target="_blank">S-expressions</a>, the textual representation of code and data used by the Lisp
-language family.</li>
+<li><a href="https://github.com/serde-rs/json" target="_blank">JSON</a>&#x306F;&#x3001;&#x591A;&#x304F;&#x306E;HTTP API&#x3067;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x30E6;&#x30D3;&#x30AD;&#x30BF;&#x30B9;&#x306A;JavaScript Object Notation&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/servo/bincode" target="_blank">Bincode</a>&#x306F;&#x3001;Servo&#x30EC;&#x30F3;&#x30C0;&#x30EA;&#x30F3;&#x30B0;&#x30A8;&#x30F3;&#x30B8;&#x30F3;&#x5185;&#x306E;IPC&#x306B;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x308B;&#x30B3;&#x30F3;&#x30D1;&#x30AF;&#x30C8;&#x306A;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/pyfisch/cbor" target="_blank">CBOR</a>&#x306F;&#x3001;&#x5C0F;&#x3055;&#x306A;&#x30E1;&#x30C3;&#x30BB;&#x30FC;&#x30B8;&#x30B5;&#x30A4;&#x30BA;&#x306E;&#x305F;&#x3081;&#x306B;&#x8A2D;&#x8A08;&#x3055;&#x308C;&#x305F;Concise Binary Object Representation&#xFF08;&#x7C21;&#x6F54;&#x306A;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30AA;&#x30D6;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x8868;&#x73FE;&#xFF09;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/dtolnay/serde-yaml" target="_blank">YAML</a>&#x306F;&#x3001;&#x30DE;&#x30FC;&#x30AF;&#x30A2;&#x30C3;&#x30D7;&#x8A00;&#x8A9E;&#x3067;&#x306F;&#x306A;&#x3044;&#x3001;&#x4EBA;&#x9593;&#x306B;&#x512A;&#x3057;&#x3044;&#x8A2D;&#x5B9A;&#x8A00;&#x8A9E;&#x3068;&#x81EA;&#x79F0;&#x3057;&#x3066;&#x3044;&#x308B;&#x8A00;&#x8A9E;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/3Hren/msgpack-rust" target="_blank">MessagePack</a>&#x306F;&#x3001;&#x30B3;&#x30F3;&#x30D1;&#x30AF;&#x30C8;&#x306A;JSON&#x306B;&#x4F3C;&#x305F;&#x3001;&#x52B9;&#x7387;&#x7684;&#x306A;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/alexcrichton/toml-rs" target="_blank">TOML</a>&#x306F;&#x3001;<a href="http://doc.crates.io/manifest.html" target="_blank">Cargo</a>&#x304C;&#x4F7F;&#x7528;&#x3059;&#x308B;&#x6700;&#x5C0F;&#x9650;&#x306E;&#x8A2D;&#x5B9A;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/birkenfeld/serde-pickle" target="_blank">Pickle</a>&#x306F;&#x3001;Python&#x306E;&#x4E16;&#x754C;&#x3067;&#x306F;&#x4E00;&#x822C;&#x7684;&#x306A;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/ron-rs/ron" target="_blank">RON</a>&#x306F;&#x3001;Rusty Object Notation&#x306E;&#x7565;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/zonyitoo/bson-rs" target="_blank">BSON</a>&#x306F;&#x3001;MongoDB&#x304C;&#x4F7F;&#x7528;&#x3059;&#x308B;&#x30C7;&#x30FC;&#x30BF;&#x30B9;&#x30C8;&#x30EC;&#x30FC;&#x30B8;&#x304A;&#x3088;&#x3073;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x8EE2;&#x9001;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/flavray/avro-rs" target="_blank">Avro</a>&#x306F;&#x3001;Apache Hadoop&#x3067;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x5F62;&#x5F0F;&#x3067;&#x3001;&#x30B9;&#x30AD;&#x30FC;&#x30DE;&#x5B9A;&#x7FA9;&#x3092;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/callum-oakley/json5-rs" target="_blank">JSON5</a>&#x306F;&#x3001;JSON&#x306E;&#x30B9;&#x30FC;&#x30D1;&#x30FC;&#x30BB;&#x30C3;&#x30C8;&#x3067;&#x3001;ES5&#x306E;&#x751F;&#x6210;&#x898F;&#x5247;&#xFF08;productions&#xFF09;&#x3082;&#x542B;&#x307E;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/jamesmunns/postcard" target="_blank">Postcard</a>&#x306F;&#x3001;no_std&#x3084;&#x7D44;&#x307F;&#x8FBC;&#x307F;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x306B;&#x9069;&#x3057;&#x305F;&#x30B3;&#x30F3;&#x30D1;&#x30AF;&#x30C8;&#x306A;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://docs.rs/serde_qs" target="_blank">URL</a>&#x306E;&#x30AF;&#x30A8;&#x30EA;&#x6587;&#x5B57;&#x5217;&#x3092;x-www-form-urlencoded&#x5F62;&#x5F0F;&#x3067;&#x8868;&#x793A;&#x3057;&#x307E;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/softprops/envy" target="_blank">Envy</a>&#x306F;&#x3001;&#x74B0;&#x5883;&#x5909;&#x6570;&#x3092;Rust&#x306E;&#x69CB;&#x9020;&#x4F53;&#x306B;&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3067;&#x3059;&#x3002;<em>&#xFF08;&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x306E;&#x307F;&#xFF09;</em></li>
+<li><a href="https://github.com/softprops/envy-store" target="_blank">Envy Store</a>&#x306F;&#x3001;<a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html" target="_blank">AWS Parameter Store</a>&#x306E;&#x30D1;&#x30E9;&#x30E1;&#x30FC;&#x30BF;&#x3092;Rust&#x306B;&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;&#x69CB;&#x9020;&#x4F53;&#x306B;&#x5909;&#x63DB;&#x3057;&#x307E;&#x3059;&#x3002;<em>&#xFF08;&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x306E;&#x307F;&#xFF09;</em></li>
+<li><a href="https://github.com/rotty/lexpr-rs" target="_blank">S-expressions</a>&#x306F;&#x3001;Lisp&#x8A00;&#x8A9E;&#x30D5;&#x30A1;&#x30DF;&#x30EA;&#x30FC;&#x3067;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x308B;&#x30B3;&#x30FC;&#x30C9;&#x3068;&#x30C7;&#x30FC;&#x30BF;&#x306E;&#x30C6;&#x30AD;&#x30B9;&#x30C8;&#x8868;&#x73FE;&#x3067;&#x3059;&#x3002;</li>
 <li><a href="https://docs.rs/zvariant" target="_blank">D-Bus</a>&apos;s binary wire format.</li>
-<li><a href="https://github.com/google/flatbuffers/tree/master/rust/flexbuffers" target="_blank">FlexBuffers</a>, the schemaless cousin of Google&apos;s FlatBuffers zero-copy
-serialization format.</li>
-<li><a href="https://github.com/P3KI/bendy" target="_blank">Bencode</a>, a simple binary format used in the BitTorrent protocol.</li>
-<li><a href="https://docs.rs/serde_dynamo" target="_blank">DynamoDB Items</a>, the format used by <a href="https://docs.rs/rusoto_dynamodb" target="_blank">rusoto_dynamodb</a> to transfer data to
-and from DynamoDB.</li>
-<li><a href="https://github.com/Canop/deser-hjson" target="_blank">Hjson</a>, a syntax extension to JSON designed around human reading and editing.
-<em>(deserialization only)</em></li>
+<li><a href="https://github.com/google/flatbuffers/tree/master/rust/flexbuffers" target="_blank">FlexBuffers</a>&#x306F;&#x3001;Google&#x306E;FlatBuffers zero-copy serialization format&#x306E;&#x30B9;&#x30AD;&#x30FC;&#x30DE;&#x30EC;&#x30B9;&#x306E;&#x5F93;&#x5144;&#x5F1F;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/P3KI/bendy" target="_blank">Bencode</a>&#x306F;&#x3001;BitTorrent&#x30D7;&#x30ED;&#x30C8;&#x30B3;&#x30EB;&#x3067;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x308B;&#x30B7;&#x30F3;&#x30D7;&#x30EB;&#x306A;&#x30D0;&#x30A4;&#x30CA;&#x30EA;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://docs.rs/serde_dynamo" target="_blank">DynamoDB Items</a>&#x306F;&#x3001;<a href="https://docs.rs/rusoto_dynamodb" target="_blank">rusoto_dynamodb</a>&#x304C;DynamoDB&#x3068;&#x306E;&#x9593;&#x3067;&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x8EE2;&#x9001;&#x3059;&#x308B;&#x969B;&#x306B;&#x4F7F;&#x7528;&#x3059;&#x308B;&#x30D5;&#x30A9;&#x30FC;&#x30DE;&#x30C3;&#x30C8;&#x3067;&#x3059;&#x3002;</li>
+<li><a href="https://github.com/Canop/deser-hjson" target="_blank">Hjson</a>&#x306F;&#x3001;&#x4EBA;&#x9593;&#x304C;&#x8AAD;&#x3093;&#x3060;&#x308A;&#x7DE8;&#x96C6;&#x3057;&#x305F;&#x308A;&#x3059;&#x308B;&#x3053;&#x3068;&#x3092;&#x524D;&#x63D0;&#x306B;&#x8A2D;&#x8A08;&#x3055;&#x308C;&#x305F;JSON&#x306E;&#x62E1;&#x5F35;&#x69CB;&#x6587;&#x3067;&#x3059;&#x3002;<em>&#xFF08;&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x306E;&#x307F;&#xFF09;</em></li>
 </ul>
-<h3 id="data-structures"><a name="data-structures" class="plugin-anchor" href="#data-structures"><i class="fa fa-link" aria-hidden="true"></i></a>Data structures</h3>
-<p>Out of the box, Serde is able to serialize and deserialize common Rust data
-types in any of the above formats. For example <code>String</code>, <code>&amp;str</code>, <code>usize</code>,
-<code>Vec&lt;T&gt;</code>, <code>HashMap&lt;K,V&gt;</code> are all supported. In addition, Serde provides a derive
-macro to generate serialization implementations for structs in your own program.
-Using the derive macro goes like this:</p>
+<h3 id="&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;"><a name="&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;" class="plugin-anchor" href="#&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x30C7;&#x30FC;&#x30BF;&#x69CB;&#x9020;</h3>
+<p>Serde&#x306F;&#x3059;&#x3050;&#x306B;&#x3001;Rust&#x306E;&#x4E00;&#x822C;&#x7684;&#x306A;&#x30C7;&#x30FC;&#x30BF;&#x578B;&#x3092;&#x4E0A;&#x8A18;&#x306E;&#x3044;&#x305A;&#x308C;&#x304B;&#x306E;&#x5F62;&#x5F0F;&#x3067;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;/&#x30C7;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;
+&#x4F8B;&#x3048;&#x3070;&#x3001;<code>String</code>,<code>&amp;str</code>,<code>usize</code>,<code>Vec&lt;T&gt;</code>,<code>HashMap&lt;K,V&gt;</code>&#x306A;&#x3069;&#x304C;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x3055;&#x308C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;
+&#x3055;&#x3089;&#x306B;&#x3001;Serde&#x306F;&#x69CB;&#x9020;&#x4F53;&#x306E;&#x30B7;&#x30EA;&#x30A2;&#x30E9;&#x30A4;&#x30BA;&#x5B9F;&#x88C5;&#x3092;&#x81EA;&#x5206;&#x306E;&#x30D7;&#x30ED;&#x30B0;&#x30E9;&#x30E0;&#x3067;&#x751F;&#x6210;&#x3059;&#x308B;&#x305F;&#x3081;&#x306E;derive&#x30DE;&#x30AF;&#x30ED;&#x3092;&#x63D0;&#x4F9B;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;
+derive&#x30DE;&#x30AF;&#x30ED;&#x306E;&#x4F7F;&#x3044;&#x65B9;&#x306F;&#x6B21;&#x306E;&#x3088;&#x3046;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
 <pre><a class="playground-link" target="_blank" href="https://play.rust-lang.org/?edition=2018&amp;gist=72755f28f99afc95e01d63174b28c1f5"></a><code class="lang-rust"><span class="hljs-keyword">use</span> serde::{Serialize, Deserialize};
 
 <span class="hljs-meta">#[derive(Serialize, Deserialize, Debug)]</span>
@@ -724,16 +702,16 @@ Using the derive macro goes like this:</p>
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> point = Point { x: <span class="hljs-number">1</span>, y: <span class="hljs-number">2</span> };
 
-    <span class="hljs-comment">// Convert the Point to a JSON string.</span>
+    <span class="hljs-comment">// Point&#x3092;JSON&#x6587;&#x5B57;&#x5217;&#x306B;&#x5909;&#x63DB;&#x3057;&#x307E;&#x3059;&#x3002;</span>
     <span class="hljs-keyword">let</span> serialized = serde_json::to_string(&amp;point).unwrap();
 
-    <span class="hljs-comment">// Prints serialized = {&quot;x&quot;:1,&quot;y&quot;:2}</span>
+    <span class="hljs-comment">// serialized = {&quot;x&quot;:1,&quot;y&quot;:2} &#x3068;&#x8868;&#x793A;</span>
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;serialized = {}&quot;</span>, serialized);
 
-    <span class="hljs-comment">// Convert the JSON string back to a Point.</span>
+    <span class="hljs-comment">// JSON&#x6587;&#x5B57;&#x5217;&#x3092;Point&#x306B;&#x623B;&#x3057;&#x307E;&#x3059;&#x3002;</span>
     <span class="hljs-keyword">let</span> deserialized: Point = serde_json::from_str(&amp;serialized).unwrap();
 
-    <span class="hljs-comment">// Prints deserialized = Point { x: 1, y: 2 }</span>
+    <span class="hljs-comment">// deserialized = Point { x: 1, y: 2 } &#x3068;&#x8868;&#x793A;</span>
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;deserialized = {:?}&quot;</span>, deserialized);
 }
 </code></pre>
@@ -760,7 +738,7 @@ Using the derive macro goes like this:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Overview","level":"1.1","depth":1,"next":{"title":"Help","level":"1.2","depth":1,"path":"help.md","ref":"help.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search","-sharing","sane-sidebar","codeblock-omit","codeblock-rust","edit-link","ga","bulk-redirect","checklist","anchors"],"root":"_src","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"checklist":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"codeblock-rust":{},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sane-sidebar":{},"codeblock-omit":{},"bulk-redirect":{"redirectsFile":"redirects.json"},"ga":{"configuration":"auto","token":"UA-82804814-1"},"edit-link":{"label":"Edit","base":"https://github.com/serde-rs/serde-rs.github.io/edit/master/_src"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Serde","language":"en","gitbook":"*"},"file":{"path":"README.md","mtime":"2021-02-11T08:21:24.415Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-05T23:02:25.687Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Overview","level":"1.1","depth":1,"next":{"title":"Help","level":"1.2","depth":1,"path":"help.md","ref":"help.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-search","-sharing","sane-sidebar","codeblock-omit","codeblock-rust","edit-link","ga","bulk-redirect","checklist","anchors"],"root":"_src","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"checklist":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"codeblock-rust":{},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sane-sidebar":{},"codeblock-omit":{},"bulk-redirect":{"redirectsFile":"redirects.json"},"ga":{"configuration":"auto","token":"UA-82804814-1"},"edit-link":{"label":"Edit","base":"https://github.com/serde-rs/serde-rs.github.io/edit/master/_src"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Serde","language":"en","gitbook":"*"},"file":{"path":"README.md","mtime":"2021-05-14T08:51:05.026Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-14T12:08:07.782Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

@@ -15,64 +15,43 @@
 
 # Serde
 
-Serde is a framework for ***ser***ializing and ***de***serializing Rust data
-structures efficiently and generically.
+Serdeは、Rustデータ構造を効率的かつ一般的にシリアライズ（***ser***ializing）およびデシリアライズ（***de***serializing）するためのフレームワークです。
 
-The Serde ecosystem consists of data structures that know how to serialize and
-deserialize themselves along with data formats that know how to serialize and
-deserialize other things. Serde provides the layer by which these two groups
-interact with each other, allowing any supported data structure to be serialized
-and deserialized using any supported data format.
+Serdeのエコシステムは、自分自身をシリアライズ/デシリアライズする方法を知っているデータ構造と、他のものをシリアライズ/デシリアライズする方法を知っているデータフォーマットで構成されています。
+Serdeは、この2つのグループが相互に作用するためのレイヤーを提供し、サポートされているデータ構造を、サポートされているデータフォーマットを使用してシリアライズおよびデシリアライズできるようにします。
 
-### Design
+### デザイン
 
-Where many other languages rely on runtime reflection for serializing data,
-Serde is instead built on Rust's powerful trait system. A data structure that
-knows how to serialize and deserialize itself is one that implements Serde's
-`Serialize` and `Deserialize` traits (or uses Serde's derive attribute to
-automatically generate implementations at compile time). This avoids any
-overhead of reflection or runtime type information. In fact in many situations
-the interaction between data structure and data format can be completely
-optimized away by the Rust compiler, leaving Serde serialization to perform
-the same speed as a handwritten serializer for the specific selection of data
-structure and data format.
+他の多くの言語では、データのシリアライズをランタイムリフレクションに頼っていますが、Serdeは代わりにRustの強力なトレイトシステムに基づいて構築されています。
+自分自身をシリアライズ/デシリアライズする方法を知っているデータ構造は、Serdeの`Serialize`トレイトおよび`Deserialize`トレイトを実装している（または Serdeの`[#derive]`アトリビュートを使用してコンパイル時に実装を自動生成している）データ構造です。
+これにより、リフレクションやランタイム型情報のオーバーヘッドを回避できます。
+実際、多くの状況において、データ構造とデータフォーマットの間の相互作用は、Rustコンパイラによって完全に最適化され、Serdeシリアライズは、データ構造とデータフォーマットの特定の選択に対して、手書きのシリアライザと同じ速度で実行されます。
 
-### Data formats
+### データフォーマット
 
-The following is a partial list of data formats that have been implemented for
-Serde by the community.
+以下は、コミュニティによってSerdeに実装されたデータフォーマットの一部です。コミュニティによってSerdeに実装されたデータフォーマットの一部をご紹介します。
 
-- [JSON], the ubiquitous JavaScript Object Notation used by many HTTP APIs.
-- [Bincode], a compact binary format used for IPC within the Servo rendering
-  engine.
-- [CBOR], a Concise Binary Object Representation designed for small message size
-  without the need for version negotiation.
-- [YAML], a self-proclaimed human-friendly configuration language that ain't
-  markup language.
-- [MessagePack], an efficient binary format that resembles a compact JSON.
-- [TOML], a minimal configuration format used by [Cargo].
-- [Pickle], a format common in the Python world.
-- [RON], a Rusty Object Notation.
-- [BSON], the data storage and network transfer format used by MongoDB.
-- [Avro], a binary format used within Apache Hadoop, with support for schema
-  definition.
-- [JSON5], a superset of JSON including some productions from ES5.
-- [Postcard], a no\_std and embedded-systems friendly compact binary format.
-- [URL] query strings, in the x-www-form-urlencoded format.
-- [Envy], a way to deserialize environment variables into Rust structs.
-  *(deserialization only)*
-- [Envy Store], a way to deserialize [AWS Parameter Store] parameters into Rust
-  structs. *(deserialization only)*
-- [S-expressions], the textual representation of code and data used by the Lisp
-  language family.
+- [JSON]は、多くのHTTP APIで使用されているユビキタスなJavaScript Object Notationです。
+- [Bincode]は、Servoレンダリングエンジン内のIPCに使用されるコンパクトなバイナリフォーマットです。
+- [CBOR]は、小さなメッセージサイズのために設計されたConcise Binary Object Representation（簡潔なバイナリオブジェクト表現）です。
+- [YAML]は、マークアップ言語ではない、人間に優しい設定言語と自称している言語です。
+- [MessagePack]は、コンパクトなJSONに似た、効率的なバイナリフォーマットです。
+- [TOML]は、[Cargo]が使用する最小限の設定フォーマットです。
+- [Pickle]は、Pythonの世界では一般的なフォーマットです。
+- [RON]は、Rusty Object Notationの略です。
+- [BSON]は、MongoDBが使用するデータストレージおよびネットワーク転送フォーマットです。
+- [Avro]は、Apache Hadoopで使用されているバイナリ形式で、スキーマ定義をサポートしています。
+- [JSON5]は、JSONのスーパーセットで、ES5の生成規則（productions）も含まれています。
+- [Postcard]は、no\_stdや組み込みシステムに適したコンパクトなバイナリフォーマットです。
+- [URL]のクエリ文字列をx-www-form-urlencoded形式で表示します。
+- [Envy]は、環境変数をRustの構造体にデシリアライズする方法です。*（デシリアライズのみ）*
+- [Envy Store]は、[AWS Parameter Store]のパラメータをRustにデシリアライズするための構造体に変換します。*（デシリアライズのみ）*
+- [S-expressions]は、Lisp言語ファミリーで使用されるコードとデータのテキスト表現です。
 - [D-Bus]'s binary wire format.
-- [FlexBuffers], the schemaless cousin of Google's FlatBuffers zero-copy
-  serialization format.
-- [Bencode], a simple binary format used in the BitTorrent protocol.
-- [DynamoDB Items], the format used by [rusoto_dynamodb] to transfer data to
-  and from DynamoDB.
-- [Hjson], a syntax extension to JSON designed around human reading and editing.
-  *(deserialization only)*
+- [FlexBuffers]は、GoogleのFlatBuffers zero-copy serialization formatのスキーマレスの従兄弟です。
+- [Bencode]は、BitTorrentプロトコルで使用されるシンプルなバイナリフォーマットです。
+- [DynamoDB Items]は、[rusoto_dynamodb]がDynamoDBとの間でデータを転送する際に使用するフォーマットです。
+- [Hjson]は、人間が読んだり編集したりすることを前提に設計されたJSONの拡張構文です。*（デシリアライズのみ）*
 
 [JSON]: https://github.com/serde-rs/json
 [Bincode]: https://github.com/servo/bincode
@@ -99,13 +78,12 @@ Serde by the community.
 [rusoto_dynamodb]: https://docs.rs/rusoto_dynamodb
 [Hjson]: https://github.com/Canop/deser-hjson
 
-### Data structures
+### データ構造
 
-Out of the box, Serde is able to serialize and deserialize common Rust data
-types in any of the above formats. For example `String`, `&str`, `usize`,
-`Vec<T>`, `HashMap<K,V>` are all supported. In addition, Serde provides a derive
-macro to generate serialization implementations for structs in your own program.
-Using the derive macro goes like this:
+Serdeはすぐに、Rustの一般的なデータ型を上記のいずれかの形式でシリアライズ/デシリアライズすることができます。
+例えば、`String`,`&str`,`usize`,`Vec<T>`,`HashMap<K,V>`などがサポートされています。
+さらに、Serdeは構造体のシリアライズ実装を自分のプログラムで生成するためのderiveマクロを提供しています。
+deriveマクロの使い方は次のようになります。
 
 !PLAYGROUND 72755f28f99afc95e01d63174b28c1f5
 ```rust
@@ -120,16 +98,16 @@ struct Point {
 fn main() {
     let point = Point { x: 1, y: 2 };
 
-    // Convert the Point to a JSON string.
+    // PointをJSON文字列に変換します。
     let serialized = serde_json::to_string(&point).unwrap();
 
-    // Prints serialized = {"x":1,"y":2}
+    // serialized = {"x":1,"y":2} と表示
     println!("serialized = {}", serialized);
 
-    // Convert the JSON string back to a Point.
+    // JSON文字列をPointに戻します。
     let deserialized: Point = serde_json::from_str(&serialized).unwrap();
 
-    // Prints deserialized = Point { x: 1, y: 2 }
+    // deserialized = Point { x: 1, y: 2 } と表示
     println!("deserialized = {:?}", deserialized);
 }
 ```
